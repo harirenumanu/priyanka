@@ -1,17 +1,34 @@
-node {    
-      def app     
-      stage('Clone repository') {               
-             
-            checkout scm    
-      }
-      stage('Build image') {         
-       
-            app = docker.build("hrenumanu/test:v1")    
-       }          
-       stage('Push image') {
-                                                  docker.withRegistry('https://registry.hub.docker.com', 'docker_hub') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest")        
-              }    
-           }
+pipeline {
+    agent any
+    stages {
+        stage('test AWS credentials') {
+            steps {
+                withAWS(credentials: 'AWSCredentials', region: 'us-east-1') {
+                    sh 'echo "hello Jenkins">hello4.txt'
+                    s3Upload acl: 'Private', bucket: 'hrenumanu', file: 'hello4.txt'
+
+                }
+            }
         }
+         stage('Checkout Code') {
+             steps {
+                   checkout scm
+             }
+             }
+         stage('Init Terraform') {
+            steps {
+                withAWS(credentials: 'AWSCredentials', region: 'us-east-1') {
+                  sh 'terraform init'      
+
+                }
+            }
+        }
+          stage('Apply Terraform') {
+            steps {
+                withAWS(credentials: 'AWSCredentials', region: 'us-east-1') {
+                    sh 'terraform apply --auto-approve'
+                }
+            }
+                 }
+            }
+}
