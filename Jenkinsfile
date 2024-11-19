@@ -12,23 +12,19 @@ pipeline {
         }
          stage('Checkout Code') {
              steps {
-                   checkout scm
+                   git credentialsId: 'githubcredentials', url: 'https://github.com/harirenumanu/priyanka.git'
              }
              }
          stage('Init Terraform') {
             steps {
-                withAWS(credentials: 'AWSCredentials', region: 'us-east-1') {
-                  sh 'terraform init'      
-
-                }
+                sh 'terraform init'      
+               
             }
         }
           stage('Apply Terraform') {
             steps {
-                withAWS(credentials: 'AWSCredentials', region: 'us-east-1') {
                     sh 'terraform destroy --auto-approve'
                 }
-            }
                  }
             }
 }
