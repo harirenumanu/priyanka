@@ -12,10 +12,16 @@ pipeline {
                
             }
         }
-          stage('Apply Terraform') {
+        stage('Terraform plan') {
             steps {
-                    sh 'terraform destroy --auto-approve'
+                    sh 'terraform plan -out ec2.plan'
                 }
-                 }
+            }
+        stage('Terraform apply') {
+            steps {
+                    sh 'terraform apply --auto-approve'
+                }
+            }
+        
             }
 }
