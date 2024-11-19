@@ -1,7 +1,7 @@
 
 resource "aws_instance" "example" {
-ami = "ami-0427090fd1714168b"
-instance_type = "t2.medium"
+ami = "ami-012967cc5a8c9f891"
+instance_type = "t2.micro"
 }
 output "ip" {
 value = aws_instance.example.public_ip
