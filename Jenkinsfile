@@ -12,16 +12,7 @@ pipeline {
                
             }
         }
-        stage('Terraform plan') {
-            steps {
-                    sh 'terraform plan -out ec2.plan'
-                }
-            }
-        stage('Terraform apply') {
-            steps {
-                    sh 'terraform apply --auto-approve'
-                }
-            }
+
         
             }
 }
