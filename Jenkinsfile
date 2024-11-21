@@ -21,7 +21,7 @@ pipeline {
 
         stage('Terraform apply and destroy') {
             steps {
-                sh 'terraform ${action} -var-file=${varfile} --auto-approve'      
+                sh 'terraform ${action}  --auto-approve'      
                
             }
         }
