@@ -21,7 +21,7 @@ pipeline {
 
         stage('Terraform apply and destroy') {
             when {
-                expression $action == "apply"
+                expression {$action == "apply"}
             }
             steps {
                 sh 'terraform ${action} --auto-approve'      
