@@ -1,0 +1,1 @@
+rep_name = stage-nginx-repo
