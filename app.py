@@ -16,3 +16,4 @@ def run(server_class=HTTPServer, handler_class=HelloHandler, port=8080):
 if __name__ == "__main__":
     run()
     hari()
+    pri()
