@@ -3,6 +3,9 @@ pipeline {
     parameters {
         string(name: 'YAML_FILE', description: 'The YAML file to be applied to the Kubernetes cluster')
     }
+    environment{
+        HOME = '/root'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -14,7 +17,7 @@ pipeline {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
                     // Update kubeconfig for EKS cluster
                     sh """
-                        aws eks update-kubeconfig --name eks-cluster --region us-east-1 --kubeconfig ${HOME}
+                        aws eks update-kubeconfig --name eks-cluster --region us-east-1 --kubeconfig ${env.HOME}
                     """
                     
                     // Apply the specified YAML file
