@@ -13,7 +13,7 @@
     steps {
         script {
             sh 'aws eks update-kubeconfig --name eks-cluster --region us-east-1'
-            sh 'kubectl apply -f ${params.YAML_FILE}'
+            sh 'kubectl apply -f ${params.YAML_FILE}.yaml'
         }
       
     }
