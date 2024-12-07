@@ -10,9 +10,6 @@ pipeline {
             }
         }
         stage('Deploy') {
-             environment {
-                KUBECONFIG = '/tmp/kubeconfig' // Temporary kubeconfig path
-            }
             steps {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
                     // Update kubeconfig for EKS cluster
