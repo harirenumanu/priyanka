@@ -17,7 +17,7 @@ pipeline {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
                     // Update kubeconfig for EKS cluster
                     sh """
-                        aws eks update-kubeconfig --name eks-cluster --region us-east-1 --kubeconfig ${env.HOME}
+                        sudo aws eks update-kubeconfig --name eks-cluster --region us-east-1 --kubeconfig ${env.HOME}
                     """
                     
                     // Apply the specified YAML file
