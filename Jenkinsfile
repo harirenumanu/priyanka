@@ -1,42 +1,23 @@
-pipeline {
+ pipeline{
     agent any
-    stages {
-         stage('Checkout Code') {
-             steps {
-                   git credentialsId: 'githubcredentials', url: 'https://github.com/harirenumanu/priyanka.git'
-             }
-             }
-         stage('Init Terraform') {
-            steps {
-                sh 'terraform init'      
-               
-            }
-        }
-        stage('Terraform plan') {
-            steps {
-                sh 'terraform plan -var-file=${varfile}'      
-               
-            }
-        }
-
-        stage('Terraform apply and destroy') {
-            when {
-                expression $action == "apply"
-            }
-            steps {
-                sh 'terraform ${action} --auto-approve'      
-               
-            }
-        }
-        stage('Terraform apply and destroy') {
-            when {
-                expression $action == "destroy"
-            }
-            steps {
-                sh 'terraform ${action} --auto-approve'      
-               
-            }
-        }
-        
+    parameters {
+        string(name: 'YAML_FILE', description: 'The YAML file to be applied to the Kubernetes cluster')
     }
+    stages {
+  stage('checkout') {
+    steps {
+      git credentialsId: 'hari-github', url: 'https://github.com/harirenumanu/priyanka.git'
+    }
+  }
+   stage('deploy') {
+    steps {
+        script {
+            sh 'aws eks update-Kubeconfig --name eks-cluster --region us-east-1'
+            sh 'kubectl apply -f ${params.YAML_FILE}'
+        }
+      
+    }
+  }
+
 }
+ }
