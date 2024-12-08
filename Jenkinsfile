@@ -5,24 +5,46 @@ pipeline {
     }
     
     stages {
+        stage('Debug Environment') {
+            steps {
+                sh """
+                    echo "Current User: $(whoami)"
+                    echo "Home Directory: $HOME"
+                    echo "Current Directory: $(pwd)"
+                    ls -la $HOME
+                """
+            }
+        }
+        
         stage('Checkout') {
             steps {
                 git credentialsId: 'github', url: 'https://github.com/harirenumanu/priyanka.git'
             }
         }
+        
         stage('Deploy') {
             steps {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
-
-                    // Update kubeconfig for EKS cluster
-                    sh """
-                        aws eks update-kubeconfig --name Eks-cluster --region us-east-1 --kubeconfig /root/.kube
-                    """
-                    
-                    // Apply the specified YAML file
-                    sh """
-                       kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
-                    """
+                    script {
+                        // More verbose kubeconfig update
+                        sh """
+                            mkdir -p $HOME/.kube
+                            chmod 755 $HOME/.kube
+                            aws eks update-kubeconfig \
+                            --name Eks-cluster \
+                            --region us-east-1 \
+                            --kubeconfig $HOME/.kube/config
+                            
+                            # Verify kubeconfig
+                            ls -la $HOME/.kube
+                            cat $HOME/.kube/config
+                        """
+                        
+                        // Apply the specified YAML file
+                        sh """
+                            kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
+                        """
+                    }
                 }
             }
         }
