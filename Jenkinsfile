@@ -5,28 +5,16 @@ pipeline {
     }
     
     stages {
-        stage('Debug Environment') {
-            steps {
-                sh """
-                    echo "Current User: $(whoami)"
-                    echo "Home Directory: $HOME"
-                    echo "Current Directory: $(pwd)"
-                    ls -la $HOME
-                """
-            }
-        }
-        
         stage('Checkout') {
             steps {
                 git credentialsId: 'github', url: 'https://github.com/harirenumanu/priyanka.git'
             }
         }
-        
         stage('Deploy') {
             steps {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
                     script {
-                        // More verbose kubeconfig update
+                        // Use script block for multiple shell commands
                         sh """
                             mkdir -p $HOME/.kube
                             chmod 755 $HOME/.kube
@@ -34,10 +22,6 @@ pipeline {
                             --name Eks-cluster \
                             --region us-east-1 \
                             --kubeconfig $HOME/.kube/config
-                            
-                            # Verify kubeconfig
-                            ls -la $HOME/.kube
-                            cat $HOME/.kube/config
                         """
                         
                         // Apply the specified YAML file
