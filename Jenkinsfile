@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'hari-github', url: 'https://github.com/harirenumanu/priyanka.git'
+                git credentialsId: 'github', url: 'https://github.com/harirenumanu/priyanka.git'
             }
         }
         stage('Deploy') {
