@@ -13,12 +13,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
-                    sh "mkdir -p /root/.kube"
-                    sh "chmod 755 /root/.kube"
+
                     // Update kubeconfig for EKS cluster
                     sh """
-                        aws eks update-kubeconfig --name Eks-cluster --region us-east-1 --kubeconfig ~/.kube/config
+                        aws eks update-kubeconfig --name Eks-cluster --region us-east-1 
                     """
+                    sh "ln /var/lib/jenkins/.kube ~/.kube"
                     
                     // Apply the specified YAML file
                     sh """
