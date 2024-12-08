@@ -16,8 +16,7 @@ pipeline {
                     script {
                         // Use script block for multiple shell commands
                         sh """
-                            sudo mkdir -p /root/.kube
-                            sudo chmod 755 /root/.kube
+
                             sudo aws eks update-kubeconfig \
                             --name Eks-cluster \
                             --region us-east-1 \
@@ -28,6 +27,7 @@ pipeline {
                         sh """
                             kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
                         """
+                        sh "kubectl get po"
                     }
                 }
             }
