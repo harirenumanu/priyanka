@@ -16,9 +16,9 @@ pipeline {
                     script {
                         // Use script block for multiple shell commands
                         sh """
-                            mkdir -p /root/.kube
-                            chmod 755 /root/.kube
-                            aws eks update-kubeconfig \
+                            sudo mkdir -p /root/.kube
+                            sudo chmod 755 /root/.kube
+                            sudo aws eks update-kubeconfig \
                             --name Eks-cluster \
                             --region us-east-1 \
                             --kubeconfig /root/.kube/config
