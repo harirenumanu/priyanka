@@ -18,7 +18,7 @@ pipeline {
                     sh """
                         aws eks update-kubeconfig --name Eks-cluster --region us-east-1 
                     """
-                    sh "ln -s /var/lib/jenkins/.kube ~/.kube"
+                    sh "ln -s /var/lib/jenkins/.kube ${HOME}/.kube"
                     
                     // Apply the specified YAML file
                     sh """
