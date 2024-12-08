@@ -13,7 +13,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 withCredentials([aws(credentialsId: 'AWSCredentials')]) {
-                    sh "mkdir -p "/root/.kube"
+                    sh "mkdir -p /root/.kube"
                     sh "chmod 755 /root/.kube"
                     // Update kubeconfig for EKS cluster
                     sh """
