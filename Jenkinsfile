@@ -25,7 +25,7 @@ pipeline {
                         
                         // Apply the specified YAML file
                         sh """
-                            kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
+                            kubectl apply -f ${params.YAML_FILE}.yaml
                         """
                         sh "kubectl get po"
                     }
