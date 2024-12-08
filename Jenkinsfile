@@ -16,12 +16,12 @@ pipeline {
                     script {
                         // Use script block for multiple shell commands
                         sh """
-                            mkdir -p $HOME/.kube
-                            chmod 755 $HOME/.kube
+                            mkdir -p /root/.kube
+                            chmod 755 /root/.kube
                             aws eks update-kubeconfig \
                             --name Eks-cluster \
                             --region us-east-1 \
-                            --kubeconfig $HOME/.kube/config
+                            --kubeconfig /root/.kube/config
                         """
                         
                         // Apply the specified YAML file
