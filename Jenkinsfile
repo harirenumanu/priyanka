@@ -16,12 +16,12 @@ pipeline {
 
                     // Update kubeconfig for EKS cluster
                     sh """
-                        aws eks update-kubeconfig --name Eks-cluster --region us-east-1 --kubeconfig /root/.kube
+                        sudo aws eks update-kubeconfig --name Eks-cluster --region us-east-1 --kubeconfig /root/.kube
                     """
                     
                     // Apply the specified YAML file
                     sh """
-                        kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
+                       sudo kubectl apply -f ${params.YAML_FILE}.yaml --validate=false
                     """
                 }
             }
